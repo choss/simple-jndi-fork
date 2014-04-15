@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2003-2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package org.osjava.sj.loader.util;
+
+import junit.framework.TestCase;
+
+public class ReplaceTest extends TestCase {
+
+    public ReplaceTest(String name) {
+        super(name);
+    }
+
+    public void setUp() {
+    }
+
+    public void tearDown() {
+    }
+
+    public void testReplace() {
+        assertEquals("one:two:three", Utils.replace("one--two--three", "--", ":" ) );
+        assertEquals("one:two:", Utils.replace("one--two--", "--", ":" ) );
+        assertEquals(":two:three", Utils.replace("--two--three", "--", ":" ) );
+    }
+
+}

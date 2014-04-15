@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+package org.osjava.sj.loader.convert;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ConvertRegistry {
+
+    private static Converter NULL_CONVERTER = new NullConverter();
+
+    private Map converters = new HashMap();
+
+    // TODO: Support inheritence; ie) key on Class not String?
+    //       Use gj-core ClassMap code?
+    public ConvertRegistry() {
+        this.converters.put( "javax.sql.DataSource", new DataSourceConverter() );
+        this.converters.put( "java.util.Date", new DateConverter() );
+        this.converters.put( "java.lang.Boolean", new ConstructorConverter() );
+    }
+
+    public Converter getConverter(String type) {
+        if(this.converters.containsKey(type)) {
+            return (Converter) converters.get(type);
+        }
+        return NULL_CONVERTER;
+    }
+
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+package org.osjava.sj.loader;
+
+public class TestBean {
+
+    private int number;
+    private String text;
+
+    public TestBean() {
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public boolean equals(Object obj) {
+        if(obj instanceof TestBean) {
+            TestBean other = (TestBean) obj;
+            return other.text == this.text && other.number == this.number;
+        } else {
+            return false;
+        }
+    }
+
+}

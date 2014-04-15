@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2003, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -13,7 +13,7 @@
  *   this list of conditions and the following disclaimer in the documentation 
  *   and/or other materials provided with the distribution.
  * 
- * + Neither the name of Simple-JNDI nor the names of its contributors 
+ * + Neither the name of Genjava-Core nor the names of its contributors 
  *   may be used to endorse or promote products derived from this software 
  *   without specific prior written permission.
  * 
@@ -29,3 +29,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+// Utils.java
+package org.osjava.sj.loader.util;
+
+import java.util.ArrayList;
+
+/**
+ * The usual Utils class with reusable flotsam
+ */
+public class Utils {
+
+    public static String[] split(String str, String delimiter) {
+        ArrayList list = new ArrayList();
+        int idx = 0;
+        while( true ) {
+            idx = str.indexOf( delimiter );
+            if(idx == -1) {
+                list.add(str);
+                break;
+            }
+            list.add(str.substring(0, idx));
+            str = str.substring(idx + delimiter.length());
+        }
+        return (String[]) list.toArray( new String[list.size()] );
+    }
+
+    public static String replace(String str, String repl, String with) {
+        int idx = str.indexOf(repl);
+        if(idx == -1) {
+            return str;
+        }
+        String rest = "";
+        if(str.length() > idx + repl.length()) {
+            rest = replace(str.substring(idx + repl.length()), repl, with);
+        }
+        return str.substring(0, idx) + with + rest;
+    }
+
+}

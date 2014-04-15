@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+package org.osjava.sj.loader.convert;
+
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Properties;
+
+public class MapConverter implements Converter {
+
+    public Object convert(Properties properties, String type) {
+        if("java.util.Map".equals(type)) {
+            type = "java.util.HashMap";
+        } else 
+        if("java.util.Properties".equals(type)) {
+            return properties;
+        }
+        try {
+            Class c = Class.forName(type);
+            Map m = (Map) c.newInstance();
+
+            Iterator entries = properties.entrySet().iterator();
+            while(entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                m.put( entry.getKey(), entry.getValue() );
+            }
+
+            return m;
+        } catch(ClassNotFoundException cnfe) {
+            throw new RuntimeException("Unable to find class: "+type, cnfe);
+        } catch(InstantiationException ie) {
+            throw new RuntimeException("Unable to instantiate class: "+type, ie);
+        } catch(IllegalAccessException ie) {
+            throw new RuntimeException("Unable to access class: "+type, ie);
+        }
+
+    }
+
+}

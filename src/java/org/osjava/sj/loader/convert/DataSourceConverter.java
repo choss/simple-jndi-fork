@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+package org.osjava.sj.loader.convert;
+
+import java.util.Properties;
+
+import org.osjava.sj.loader.SJDataSource;
+
+public class DataSourceConverter implements Converter {
+
+    public Object convert(Properties properties, String type) {
+        String driver = properties.getProperty("driver");
+        String url = properties.getProperty("url");
+        String user = properties.getProperty("user");
+        String password = properties.getProperty("password");
+
+        if(driver == null) {
+            throw new RuntimeException("Required subelement 'driver'");
+        }
+        if(url == null) {
+            throw new RuntimeException("Required subelement 'url'");
+        }
+        if(user == null) {
+            throw new RuntimeException("Required subelement 'user'");
+        }
+        if(password == null) {
+            throw new RuntimeException("Required subelement 'password'");
+        }
+
+        return new SJDataSource(driver, url, user, password, properties);
+    }
+
+}

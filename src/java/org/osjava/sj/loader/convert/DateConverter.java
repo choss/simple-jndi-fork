@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2013, Henri Yandell + Robert Zigweid
+ * Copyright (c) 2005, Henri Yandell
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or 
@@ -29,3 +29,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+package org.osjava.sj.loader.convert;
+
+import java.util.Properties;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+public class DateConverter implements Converter {
+
+    public Object convert(Properties properties, String type) {
+        String format = properties.getProperty("format");
+        String value = properties.getProperty("");
+
+        if(format == null) {
+            throw new RuntimeException("Required subelement 'format'");
+        }
+        if(value == null) {
+            throw new RuntimeException("Missing value");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+        try {
+            return sdf.parse( value );
+        } catch(ParseException pe) {
+            throw new RuntimeException("Unable to parse '"+value+"' as format '"+format+"'");
+        }
+    }
+
+}
